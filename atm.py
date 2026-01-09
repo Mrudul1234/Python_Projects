@@ -8,62 +8,76 @@ class Account:
 
     def login(self,password):
         if password==self.pin :
+            print("password accepted!\n")
             self.access=True
+            return True
         else:
             self.access=False
+            return False
 
-    def deposit(self, amount):
+    def deposit(self,amount):
         self.balance = self.balance + amount
         print("deposit successful")
+        print(f"new balance :{self.balance}")
 
     def withdraw(self,amount):
         if amount <= self.balance:
             self.balance = self.balance - amount
             print("withdrawal successful")
+            print(f"new balance :{self.balance}")
         else:
             print("insufficient fund")
         
     def display_balance(self):
-        print(f"current balance:{self.balance}") 
-         
-#error smaj aaraha he tuje ??
+        print(f"current balance:{self.balance}")
 
-acc1=Account(2313,"mrudul",2006,100000)
+
+accounts=[
+    Account(2313,"mrudul",2006,100000),
+    Account(2132,"dipanshu",1234,100000)
+]
 
 
 def main():
-    #my_account = Account()
+    my_account = None
+    user_pin = int(input("Write your password :-"))                 
     
-        
-    print("*******welcome*******")
-    userpass = int(input("Write your password :-"))
-    
-    acc1.login(userpass)
+    for acc in accounts:
+        print(f"Checking account {acc.account_holder_name} with PIN {acc.pin}")
+        if acc.login(user_pin):
+            my_account = acc
+            print(f"Login successful: {acc.account_holder_name}")
+            break  
 
-    if(Account.login):
-        print("1. check balance")
-        print("2.deposit")
-        print("3.withdraw")
-        print("4.logout")
-
-        user_choice = input("enter your choice :- ")
-
-        if user_choice == "1":
-            Account.display_balance() 
-        elif user_choice == "2":
-            amount = input(f"enter the deposit amount:{amount}")
-        elif user_choice == "3":
-                 amount = input(f"enter withdrawal amount:{amount}") 
-        elif user_choice == "4":
-            print("logging out")
-            print("*****thank you*****")
-            #break 
-            return
-        else :
-             print("invalid opition")
-        
-             
+    if my_account == None:
+        print("wrong password try again!")
     else:
-        print("wrong password try again !")
+        while True:
+            print("*******welcome*******\n")
+            print("1.check balance")
+            print("2.deposit")
+            print("3.withdraw")
+            print("4.logout")
 
-main()
+            user_choice = input("enter your choice(1-4) :- ")
+
+            if user_choice == "1":
+                my_account.display_balance()
+
+            elif user_choice == "2":
+                amount = float(input("Enter deposit amount: "))
+                my_account.deposit(amount)
+
+            elif user_choice == "3":
+                amount = float(input("Enter withdrawal amount: "))
+                my_account.withdraw(amount)
+                
+            elif user_choice == "4":
+                print("logging out")
+                print("*****thank you*****")
+                break
+            else:
+                print("invalid option")
+
+if __name__ == "__main__":
+    main()        
